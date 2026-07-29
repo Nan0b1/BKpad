@@ -10,9 +10,25 @@ An oled display (showing his mouth) will shurely tell you your mic volume (he ca
 Twelve leds will show you various informations and interactions :o
 
 
+**requirements:**
+| Parts          | Quantity       |
+| -------------- | -------------- |
+|Seeed XIAO RP2040| 1x            |
+| M3x14mm screws | 4x             |
+|  M3x5mx4mm     | 6x             |
+|MX-Style switches| 2x            |
+| keycaps        | 2x             |
+|EC11 Rotary encoders| 2x         |
+| 0.91 inch OLED | 1x             |
+|SK6812 MINI-E LEDs| 12x          |
 
 
-**# This project is made in steps:**
+
+
+
+
+
+**# This project is made in steps:** (#japan is turning foosteps into electricity)
 
 1st: design the idea (easy to think)
 2nd: use the tutorial to learn kicad and fusion 360 
