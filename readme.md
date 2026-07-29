@@ -27,10 +27,10 @@ Twelve leds will show you various informations and interactions :o
 
 
 
-**Case images!**
+**Case images!**<br>
 <img width="415" height="415" alt="BKpad_bottom" src="https://github.com/user-attachments/assets/09728038-5f8c-4b89-8035-226014684b55" />
 <img width="960" height="415" alt="BKpad_bottom_bottom-side" src="https://github.com/user-attachments/assets/a8534e42-a299-4d55-83c9-08172310a6d3" />
-<img width="460" height="460" alt="BKpad-top_top-side" src="https://github.com/user-attachments/assets/5027afd2-966b-4f7e-aac7-3a855e985d1f" />
+<img width="415" height="415" alt="BKpad-top_top-side" src="https://github.com/user-attachments/assets/5027afd2-966b-4f7e-aac7-3a855e985d1f" />
 <img width="960" height="415" alt="BKpad_Top_bottom-side" src="https://github.com/user-attachments/assets/5ae2b4ca-d643-479e-9673-b0dcc990aae2" />
 
 
