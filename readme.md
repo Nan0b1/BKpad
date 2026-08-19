@@ -44,6 +44,7 @@ Twelve leds will show you various informations and interactions :o
 - wiring everything logically
 - defining the locations of the various elements on the board while designing the case in fusion360
 - adding beauty!
+
 4th: making the code for the micro controller (this is difficult) and the website!
  - https://bkpad.odoo.com/
 
