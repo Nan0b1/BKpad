@@ -1,7 +1,7 @@
 <img width="315" height="252" alt="BKpad Plastic" src="https://github.com/user-attachments/assets/7dec13c5-4c1a-4705-84c5-03c972b31e43" />
 
 
-**My BKpad is my first project based on the model of the boykisser!**
+**The BKpad is my first project based on the model of the boykisser!**
 
 This pad makes your communications easier!
 You can express yourself with your emojis, there will be firstly UwU, OwO (4 different buttons)
@@ -44,10 +44,11 @@ Twelve leds will show you various informations and interactions :o
 - wiring everything logically
 - defining the locations of the various elements on the board while designing the case in fusion360
 - adding beauty!
-4th: making the code for the micro controller
+4th: making the code for the micro controller (this is difficult) and the website!
+ - https://bkpad.odoo.com/
 
 
-I am actually on step 3: desining the case
+I am actually on step 4: Doing the horrible code
 
 
 Contributing?
