@@ -1,3 +1,5 @@
+<img width="315" height="252" alt="BKpad Plastic" src="https://github.com/user-attachments/assets/7dec13c5-4c1a-4705-84c5-03c972b31e43" />
+
 **The BKpad is my first project based on the model of the boykisser!**
 
 This pad makes your communications easier!
