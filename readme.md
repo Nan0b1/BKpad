@@ -7,13 +7,13 @@ You can express yourself with your emojis, there will be firstly UwU, OwO (4 dif
 Then you can express you reflexions by petting his ears! Say hmm or ohh. The longer you keep pressing, the more letters there will have! <br>
 And because everything is not restricted in messages, you will ba able to change your volume and your screen light level (with the help of 2 potentiometers :3)<br>
 The whole keyboards run on KMK software :o
-<br>
+<br><br>
 **Visuals indicators:** <br>
 An oled display (showing his mouth) will first be there then it will be capable of moving and showing informations when you click :)
 Twelve leds will show you various informations and interactions, I will be able to develop this only with the physical keyboard (documentation don't say everything I need)
 
 
-**Case images!** <br>
+### **Case images!** <br>
 | Bottom from top          | bottom from bottom       |
 | -------------- | -------------- |
 | <img width="415" height="415" alt="BKpad_bottom" src="https://github.com/user-attachments/assets/09728038-5f8c-4b89-8035-226014684b55" /> | <img width="960" height="415" alt="BKpad_bottom_bottom-side" src="https://github.com/user-attachments/assets/a8534e42-a299-4d55-83c9-08172310a6d3" /> |
@@ -22,7 +22,7 @@ Twelve leds will show you various informations and interactions, I will be able 
 | -------------- | -------------- |
 | <img width="415" height="415" alt="BKpad-top_top-side" src="https://github.com/user-attachments/assets/5027afd2-966b-4f7e-aac7-3a855e985d1f" /> | <img width="960" height="415" alt="BKpad_Top_bottom-side" src="https://github.com/user-attachments/assets/5ae2b4ca-d643-479e-9673-b0dcc990aae2" /> |
 
-** PCB **
+### **PCB**
 
 | Render | schematic | logical wiring |
 |--------|-----------|----------------|
@@ -32,7 +32,7 @@ Twelve leds will show you various informations and interactions, I will be able 
 If you want to do this project yourself, all you need is there (+ money I gess).
 The files needed are just right at the top and you can see in the next text what components you need :o 
 
-**requirements:**
+### **requirements:**
 | Parts          | Quantity       |
 | -------------- | -------------- |
 |Seeed XIAO RP2040| 1x            |
@@ -46,7 +46,7 @@ The files needed are just right at the top and you can see in the next text what
 | special: | pcb maker/3d printer | 
 
 
-**# This project is made in steps:** 
+## This project is made in steps: 
 
 1st: design the idea (easy to think) 
 2nd: use the tutorial to learn kicad and fusion 360 
@@ -60,7 +60,7 @@ The files needed are just right at the top and you can see in the next text what
  - https://bkpad.odoo.com/ <- it's like the discord but without code and complicated things
 
 
-**Contributing?**
+### **Contributing?**
 Do as you want :) <br>
 Thks for the 2 people who reported a typo and added a french flag to the directory<br>
 
