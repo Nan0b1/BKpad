@@ -1,12 +1,20 @@
+# Welcome
+# this code is my first using a library like that 
+# sorry if you want to understand that it might be complicated
 
+# basic iports
+from kmk.kmk_keyboard import KMKKeyboard
+from kmk.keys import KC
+import board
 
-# display imports / thks to LyricSantan (I don't want to recreate the wheel)
+# display imports / thanks to LyricSantan (I don't want to recreate the wheel)
 import displayio
 import adafruit_ssd1306
 try:
     import adafruit_imageload
 except Exception:
     adafruit_imageload = None
+
 
 # OLED init
 i2c = board.I2C() 
@@ -44,6 +52,8 @@ elif has_display:
 
 
 
+# ------- keys -------
+
 from kmk.modules.macros import Macros
 macros = Macros()
 keyboard.modules.append(macros)
@@ -58,19 +68,7 @@ KEY_PINS = [board.GP27, board.GP26,
             board.GP28, board.GP29]
 
 
-# Rotary encoders
-# Pins
-ENC_left_A = board.GP2
-ENC_left_B = board.GP1
-
-ENC_right_A = board.GP3
-ENC_right_B = board.GP4
-
-
-""" ########################################## """
-
 import board
-from kmk.kmk_keyboard import KMKKeyboard
 from kmk.scanners.keypad import KeysScanner
 
 
@@ -98,11 +96,19 @@ keyboard.keymap = [Ohh,
                    OwO,
                    UwU]
 
+# ------- Rotary encoders -------
+# Pins
+ENC_left_A = board.GP2
+ENC_left_B = board.GP1
+
+ENC_right_A = board.GP3
+ENC_right_B = board.GP4
+
 # Vars
 from kmk.modules.encoder import EncoderHandler
 encoder_handler = EncoderHandler()
 encoder_handler.pins = (
-    # regular direction encoder and a button
+    # regular direction encoder whithout button
     (ENC_left_A, ENC_left_B, None,), # encoder #1
     (ENC_right_A, ENC_right_B, None,),# encoder #2
     )
@@ -113,16 +119,21 @@ keyboard.extensions.append(MediaKeys())
 encoder_handler.map = [ ((KC.BRIGHTNESS_DOWN, KC.BRIGHTNESS_UP, None), (KC.AUDIO_VOL_DOWN, KC.AUDIO_VOL_UP, None),),
                         ]
 
+
+
 from kmk.extensions.RGB import RGB
 
 rgb = RGB(pixel_pin=board.GP0, num_pixels=12)
 keyboard.extensions.append(rgb)
-rgb.set_rgb_fill(255, 255, 255)
+rgb.set_rgb_fill(255, 255, 255) # set lights white to see if they work (for the moment it's enought)
 
 # thanks to github.com/LyricSantana/lyrics_macropad/blob/main/Firmware/main.py
 # KMK documentation is horrible for my little brain and their tutoral starts with 'test with your controller' which I don't have ._.
-# So I'll take functions from there and not the documentation
-# I do not copy paste all his code, I just copy single functions
+# So I learned from there and the documentation
+# I did not copied paste all his code
 
 # docs are simple but not enought for my little brain :(
-# help
+# i survived !
+
+if __name__ == '__main__':
+    keyboard.go()
