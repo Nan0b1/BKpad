@@ -1,6 +1,5 @@
 <img width="315" height="252" alt="BKpad Plastic" src="https://github.com/user-attachments/assets/7dec13c5-4c1a-4705-84c5-03c972b31e43" />
 
-
 **The BKpad is my first project based on the model of the boykisser!**
 
 This pad makes your communications easier!
@@ -35,6 +34,12 @@ Twelve leds will show you various informations and interactions :o
 | Top from top          | top from bottom       |
 | -------------- | -------------- |
 | <img width="415" height="415" alt="BKpad-top_top-side" src="https://github.com/user-attachments/assets/5027afd2-966b-4f7e-aac7-3a855e985d1f" /> | <img width="960" height="415" alt="BKpad_Top_bottom-side" src="https://github.com/user-attachments/assets/5ae2b4ca-d643-479e-9673-b0dcc990aae2" /> |
+
+** PCB **
+
+| Render | schematic | logical wiring |
+|--------|-----------|----------------|
+|<img width="1099" height="925" alt="KiCad render" src="https://github.com/user-attachments/assets/5171a622-a7cf-4193-bc12-ddc4c2e1ac6f" /> | <img width="1108" height="875" alt="KiCad bueprint" src="https://github.com/user-attachments/assets/b98f09b3-611c-4ee4-914d-263eb501b402" /> | <img width="1094" height="827" alt="KiCad logical schematic" src="https://github.com/user-attachments/assets/1d3fce0d-8b4c-46b6-8ccf-5719f2f64cf1" /> |
 
 
 
