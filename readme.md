@@ -58,7 +58,9 @@ The files needed are just right at the top and you can see in the next text what
 4th: making the code for the micro controller (this is difficult) and the website!<br>
  - The Website is actually made with ODOO, a no code option. I tried that to see where the no code puts us and it confirms: this is not good. BUT it was done and pretty in less than 2 hours easily and this is for everyone to see, not just people that want to see that I have a html degree.
  - https://bkpad.odoo.com/ <- it's like the discord but without code and complicated things
-
+<br>
+<br>
+If you want to see all devlogs or images you can go to https://github.com/Nan0b1/BKpad !
 
 ### **Contributing?**
 Do as you want :) <br>
