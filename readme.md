@@ -60,7 +60,7 @@ The files needed are just right at the top and you can see in the next text what
  - https://bkpad.odoo.com/ <- it's like the discord but without code and complicated things
 <br>
 <br>
-If you want to see all devlogs or images you can go to https://github.com/Nan0b1/BKpad !
+If you want to see all devlogs or images you can go to [the stardance page](https://stardance.hackclub.com/projects/31015) !
 
 ### **Contributing?**
 Do as you want :) <br>
