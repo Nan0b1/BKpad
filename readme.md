@@ -6,7 +6,7 @@ This *pad / micro keyboard* makes your communications easier!<br>
 You can express yourself with your emojis, there will be 4 different buttons: firstly UwU, OwO, <br>
 Then you can express you reflexions by petting his ears! Say hmm or ohh. The longer you keep pressing, the more letters there will have! <br>
 And because everything is not restricted in messages, you will be able to change your volume and your screen light level (with the help of 2 potentiometers :3)<br>
-The whole keyboard run on KMK software :o
+The whole keyboard run on *~~KMK~~* QMK software :o
 <br><br>
 **Visuals indicators:** <br>
 An oled display (showing his mouth) will first be there then it will be capable of moving and showing informations when you click :)
