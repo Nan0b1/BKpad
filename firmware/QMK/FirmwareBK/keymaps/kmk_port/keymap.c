@@ -26,13 +26,17 @@ enum custom_keycodes {
 
 enum combo_ids {
     MYKEY_COMBO,
-    BOOTLOADER_COMBO
+    BOOTLOADER_COMBO,
+    HIDDEN_COMBO
 };
 
 static uint8_t actual_img = 4;
+static uint8_t old_img = 4;
+static uint8_t custom_img = '\0';
 
 const uint16_t PROGMEM GameMode_combo[] = {UWU_TEXT, OWO_TEXT, COMBO_END};
 const uint16_t PROGMEM bootloader_combo[] = {OH_REPEAT, HM_REPEAT, COMBO_END};
+const uint16_t PROGMEM hidden_combo[] = {UWU_TEXT, OWO_TEXT, OH_REPEAT, COMBO_END};
 
 
 static uint16_t red_cheek = 0;
@@ -57,17 +61,29 @@ static uint32_t repeat_m_last;
 static uint8_t led_brightness = LED_BRIGHTNESS_MAX / 2;
 
 // LED order follows rgb_matrix.layout in FirmwareBK/keyboard.json.
-static const uint32_t led_colors[RGB_MATRIX_LED_COUNT] = {
-    0xff6dfb, 0xff3efa, 0xff00f8, 0x800000,
-    0xff005c, 0x800000, 0xff00f8, 0xff3efa,
-    0xff6dfb, 0xffc4fd, 0xffc4fd, 0xffffff,
+const static uint32_t led_colors[2][RGB_MATRIX_LED_COUNT] = {
+    {
+        0xa460c2, 0xa937dc, 0xb100ff, 0x800019,
+        0xff005c, 0x800019, 0xb100ff, 0xa937dc,
+        0xa460c2, 0x91488e, 0x7c3779, 0x5c2f5a,
+    },
+    {
+        0xa25000, 0x683300, 0x3e1f00, 
+        0x802200, 0x3e1f00, 0x802200, 
+        0x3e1f00, 0x683300, 0xa25000,
+        0x5f3100, 0x5f3100, 0x5f3100,
+    }
 };
+
+static uint8_t color_scene = 0;
+
 
 static uint32_t led_colors_variable[RGB_MATRIX_LED_COUNT][3]; // variable because it can be dynamically changed
 
 combo_t key_combos[] = {
     [MYKEY_COMBO] = COMBO_ACTION(GameMode_combo),
     [BOOTLOADER_COMBO] = COMBO_ACTION(bootloader_combo),
+    [HIDDEN_COMBO] = COMBO_ACTION(hidden_combo),
 };
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
@@ -113,11 +129,13 @@ void send_chars(char* chars) {
         // replace_char(stringBuffer, "¤", ":");
         azerty_to_qwerty(stringBuffer);
         send_string(stringBuffer);
+    } else {
+        send_string(chars);
     }
 }
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
-    if (red_cheek < 128){
-        red_cheek += 32;
+    if (red_cheek < 82){
+        red_cheek += 48;
     }
     switch (keycode) {
         case UWU_TEXT:
@@ -133,7 +151,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
                 }
             } else {
                 if (record->event.pressed) {
-                    send_chars("w");
+                    send_chars(azerty ? "w" : "z");
                 }
             }
             return false;
@@ -190,6 +208,7 @@ void process_combo_event(uint16_t combo_index, bool pressed) {
         
         game_mode = !game_mode;
         if (game_mode) {
+            color_scene = 1;
             register_code(KC_LEFT_GUI);
             tap_code16(KC_R);
             unregister_code(KC_LEFT_GUI);
@@ -198,13 +217,17 @@ void process_combo_event(uint16_t combo_index, bool pressed) {
             tap_code(KC_ENT);
             actual_img = 0;
         } else {
+            color_scene = 0;
             actual_img = 4;
         }
         oled_task_user();
     }
     if (combo_index == BOOTLOADER_COMBO && pressed) {
-        actual_img += 1;
+        custom_img = 6+azerty;
         oled_task_user();
+        azerty = !azerty;
+    }
+    if (combo_index == HIDDEN_COMBO && pressed) {
         bootloader_jump();
     }
 }
@@ -241,43 +264,45 @@ bool rgb_matrix_indicators_user(void) {
 }
 
 bool encoder_update_user(uint8_t index, bool clockwise) {
-    
-        if (game_mode == false) {
-            switch (index) {
-            case 0:
-                tap_code(clockwise == false ? KC_VOLU : KC_VOLD);
-                break;
-            case 1:
-                if (clockwise == false) {
-                    
-                    if (is_oled_on()) {
-                        oled_on();
-                    }
-                    if (led_brightness <= LED_BRIGHTNESS_MAX - LED_BRIGHTNESS_STEP) {
-                        led_brightness += LED_BRIGHTNESS_STEP;
-                    } else {
-                        led_brightness = LED_BRIGHTNESS_MAX;
-                    }
-                } else if (led_brightness >= LED_BRIGHTNESS_STEP) {
-                    led_brightness -= LED_BRIGHTNESS_STEP;
-                } else {
-                    led_brightness = 0;
+    if (red_cheek < 106){
+        red_cheek += 24;
+    }
+    if (game_mode == false) {
+        switch (index) {
+        case 0:
+            tap_code(clockwise == false ? KC_VOLU : KC_VOLD);
+            break;
+        case 1:
+            if (clockwise == false) {
+                
+                if (is_oled_on()) {
+                    oled_on();
                 }
-                oled_set_brightness((led_brightness*led_brightness)/129*2);
-                break;
-            default:
-                return false;
+                if (led_brightness <= LED_BRIGHTNESS_MAX - LED_BRIGHTNESS_STEP) {
+                    led_brightness += LED_BRIGHTNESS_STEP;
+                } else {
+                    led_brightness = LED_BRIGHTNESS_MAX;
+                }
+            } else if (led_brightness >= LED_BRIGHTNESS_STEP) {
+                led_brightness -= LED_BRIGHTNESS_STEP;
+            } else {
+                led_brightness = 0;
             }
-        } else {
-            switch (index) {
-            case 0:
-                send_chars(clockwise == false ? "a" : "z");
-                break;
-            case 1:
-                send_chars(clockwise == false ? "o" : "p");
-                break;
-            }
+            oled_set_brightness((led_brightness*led_brightness)/129*2);
+            break;
+        default:
+            return false;
         }
+    } else {
+        switch (index) {
+        case 0:
+            send_chars(azerty ? (clockwise == false ? "a" : "z") : (clockwise == false ? "q" : "w"));
+            break;
+        case 1:
+            send_chars(azerty ? (clockwise == false ? "o" : "p") : (clockwise == false ? "o" : "p"));
+            break;
+        }
+    }
     
     return false;
 }
@@ -296,7 +321,7 @@ void keyboard_post_init_user(void) {
     rgb_matrix_mode_noeeprom(RGB_MATRIX_SOLID_COLOR);
 
     for (int i = 0; i < RGB_MATRIX_LED_COUNT; i++) {
-        const uint32_t color = led_colors[i];
+        const uint32_t color = led_colors[color_scene][i];
         const uint8_t red = ((color >> 16) & 0xFF);
         const uint8_t green = ((color >> 8) & 0xFF);
         const uint8_t blue = (color & 0xFF);
@@ -308,9 +333,20 @@ void keyboard_post_init_user(void) {
     defer_exec(100, my_callback, NULL);
 }
 
-bool oled_task_user(void) {
+bool oled_task_user(void) { // this function includes a system of special images that can be there until another is loaded
+    /*
+    updates the oled display
+    If actual_img is set to a new value, the display is set to the image associated.
+    If a custom img is set, the custom img will be displayed untill the actual_img var is changed
+    */
     oled_set_cursor(0, 0);
-    oled_write_raw_P(mouth_bitmap[actual_img], sizeof(mouth_bitmap[actual_img]));
+    if (old_img != actual_img) {
+        custom_img = '\0';
+        oled_write_raw_P(mouth_bitmap[actual_img], sizeof(mouth_bitmap[actual_img]));
+    } else if (custom_img != '\0') {
+        oled_write_raw_P(mouth_bitmap[custom_img], sizeof(mouth_bitmap[custom_img]));
+    }
+    old_img = actual_img;
     return false;
 }
 
@@ -321,7 +357,7 @@ static int16_t r_modifier = 0;
 static int16_t g_modifier = 0;
 static int16_t b_modifier = 0;
 static float seed = 0;
-static uint8_t strenght = 8;
+static uint8_t strenght = 6;
 static uint16_t speed = 100;
 
 void modify_modifier(void){
@@ -330,20 +366,26 @@ void modify_modifier(void){
     g_modifier = (int)((sinf((float)2 * (seed + 300)/speed) + (float)sinf(M_PI * (seed + 300)/speed))*strenght*6 );
     b_modifier = (int)((sinf((float)2 * (seed + 600)/speed) + (float)sinf(M_PI * (seed + 600)/speed))*strenght*6 );
     if (red_cheek > 0) {
-        r_modifier += red_cheek;
-        red_cheek -= 16;
+        red_cheek -= 4;
     }
 }
+
+static bool smol_animations = true;
 
 void looped_user(void){
     modify_modifier();
     for (uint8_t led = 0; led < RGB_MATRIX_LED_COUNT; led++) {
-        const uint32_t color = led_colors[led];
+        const uint32_t color = led_colors[color_scene][led];
         const uint8_t red = ((color >> 16) & 0xFF);
         const uint8_t green = ((color >> 8) & 0xFF);
         const uint8_t blue = (color & 0xFF);
-        led_colors_variable[led][0] = frame(0, red + r_modifier*red/256 - strenght*4 + red_cheek,255);
-        led_colors_variable[led][1] = frame(0, green + g_modifier*green/256 - strenght*4,255);
-        led_colors_variable[led][2] = frame(0, blue + b_modifier*blue/256 - strenght*4 ,255);
+        uint8_t red_supp = 0;
+        if (led == 3 || led == 5){
+            red_supp += red_cheek;
+        }
+
+        led_colors_variable[led][0] = frame(0, red + (r_modifier + red_supp)*red/256*smol_animations - strenght*4,255);
+        led_colors_variable[led][1] = frame(0, green + g_modifier*green/256*smol_animations - strenght*4,255);
+        led_colors_variable[led][2] = frame(0, blue + b_modifier*blue/256*smol_animations - strenght*4 ,255);
     }
 }
