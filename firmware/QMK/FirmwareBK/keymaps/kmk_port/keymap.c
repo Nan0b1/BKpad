@@ -9,8 +9,9 @@
 typedef union { 
   uint32_t raw;
   struct { //it's the number of bits not the default value :3
-    bool     ee_azerty :1; // stored keyboard layout value
-    uint8_t  ee_led_brightness:8;
+    bool     ee_azerty :1;          // stored keyboard layout value, defaults to qwerty
+    uint8_t  ee_led_brightness:8;   // defaults to 0
+    bool     ee_initialized:1;      // if first run: set default brightness value
   };
 } user_config_t; 
 
@@ -67,7 +68,6 @@ static uint32_t repeat_h_started;
 static uint32_t repeat_m_started;
 static uint32_t repeat_h_last;
 static uint32_t repeat_m_last;
-static uint8_t led_brightness = LED_BRIGHTNESS_MAX / 2;
 
 // LED order follows rgb_matrix.layout in FirmwareBK/keyboard.json.
 const static uint32_t led_colors[2][RGB_MATRIX_LED_COUNT] = {
@@ -126,17 +126,9 @@ char* azerty_to_qwerty(char *str) {
 
 void send_chars(char* chars) {
     if (user_config.ee_azerty) {
-        char stringBuffer[64]; // Création d'un espace de 20 cases en RAM
+        char stringBuffer[64];
         memset(stringBuffer, 0, sizeof(stringBuffer));
-        snprintf(stringBuffer, sizeof(stringBuffer), "%s", chars); // On copie le texte dans la RAM
-        // replace_char(stringBuffer, "w", "z");
-        // replace_char(stringBuffer, "m", ";");
-        // replace_char(stringBuffer, "W", "?");
-        // replace_char(stringBuffer, "!", "/");
-        // replace_char(stringBuffer, "q", "a");
-        // replace_char(stringBuffer, "M", "¤");
-        // replace_char(stringBuffer, ":", "M");
-        // replace_char(stringBuffer, "¤", ":");
+        snprintf(stringBuffer, sizeof(stringBuffer), "%s", chars);
         azerty_to_qwerty(stringBuffer);
         send_string(stringBuffer);
     } else {
@@ -261,12 +253,11 @@ void matrix_scan_user(void) {
 }
 
 void set_led_color(uint8_t led, uint8_t red, uint8_t green, uint8_t blue) {
-    rgb_matrix_set_color(led, red*(led_brightness*led_brightness)/LED_BRIGHTNESS_MAX / LED_BRIGHTNESS_MAX, green*(led_brightness*led_brightness)/LED_BRIGHTNESS_MAX / LED_BRIGHTNESS_MAX, blue*(led_brightness*led_brightness)/LED_BRIGHTNESS_MAX / LED_BRIGHTNESS_MAX);
+    rgb_matrix_set_color(led, red*(user_config.ee_led_brightness*user_config.ee_led_brightness)/LED_BRIGHTNESS_MAX / LED_BRIGHTNESS_MAX, green*(user_config.ee_led_brightness*user_config.ee_led_brightness)/LED_BRIGHTNESS_MAX / LED_BRIGHTNESS_MAX, blue*(user_config.ee_led_brightness*user_config.ee_led_brightness)/LED_BRIGHTNESS_MAX / LED_BRIGHTNESS_MAX);
 }
 
 bool rgb_matrix_indicators_user(void) {
     for (uint8_t led = 0; led < RGB_MATRIX_LED_COUNT; led++) {
-        // const uint32_t color[3] = led_colors_variable[led];
         const uint8_t red = led_colors_variable[led][0];
         const uint8_t green = led_colors_variable[led][1];
         const uint8_t blue = led_colors_variable[led][2];
@@ -286,29 +277,21 @@ bool encoder_update_user(uint8_t index, bool clockwise) {
             break;
         case 1:
             if (clockwise == false) {
-                
-                if (is_oled_on()) {
-                    oled_on(); // TODO: ahh
-                }
-                if (led_brightness <= LED_BRIGHTNESS_MAX - LED_BRIGHTNESS_STEP) {
-                    led_brightness += LED_BRIGHTNESS_STEP;
-                    user_config.ee_led_brightness = led_brightness;
+                if (user_config.ee_led_brightness <= LED_BRIGHTNESS_MAX - LED_BRIGHTNESS_STEP) {
+                    user_config.ee_led_brightness += LED_BRIGHTNESS_STEP;
                     eeconfig_update_user(user_config.raw);
                 } else {
-                    led_brightness = LED_BRIGHTNESS_MAX;
-                    user_config.ee_led_brightness = led_brightness;
+                    user_config.ee_led_brightness = LED_BRIGHTNESS_MAX;
                     eeconfig_update_user(user_config.raw);
                 }
-            } else if (led_brightness >= LED_BRIGHTNESS_STEP) {
-                led_brightness -= LED_BRIGHTNESS_STEP;
-                user_config.ee_led_brightness = led_brightness;
+            } else if (user_config.ee_led_brightness >= LED_BRIGHTNESS_STEP) {
+                user_config.ee_led_brightness -= LED_BRIGHTNESS_STEP;
                 eeconfig_update_user(user_config.raw);
             } else {
-                led_brightness = 0;
-                user_config.ee_led_brightness = led_brightness;
+                user_config.ee_led_brightness = 0;
                 eeconfig_update_user(user_config.raw);
             }
-            oled_set_brightness((led_brightness*led_brightness)/129*2);
+            oled_set_brightness((user_config.ee_led_brightness*user_config.ee_led_brightness)/129*2);
             break;
         default:
             return false;
@@ -351,15 +334,15 @@ void keyboard_post_init_user(void) {
     }
 
     user_config.raw = eeconfig_read_user();
-
-    // Set default layer, if enabled
-   user_config.ee_azerty = user_config.ee_azerty;
-    led_brightness = user_config.ee_led_brightness;
+    if (!user_config.ee_initialized) {
+        user_config.ee_led_brightness = 64;
+        eeconfig_update_user(user_config.raw);
+    }
 
     defer_exec(100, my_callback, NULL);
 }
 
-bool oled_task_user(void) { // this function includes a system of special images that can be there until another is loaded
+bool oled_task_user(void) {
     /*
     updates the oled display
     If actual_img is set to a new value, the display is set to the image associated.
