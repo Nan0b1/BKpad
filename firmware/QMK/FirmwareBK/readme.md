@@ -1,4 +1,4 @@
-# KMK port for BKpad
+# KMK to QMK port for BKpad
 
 This QMK keymap uses four individual GPIO buttons, with a single 12-LED RGB chain.
 
@@ -32,3 +32,4 @@ The AI says at the first launch it inits QMK and may ask permissions.
 Then everything is done myself hehe :3
 
 Every image is done in gimp (glory to open source)
+Then translated to bytecode with the LCDAssistant.exe
