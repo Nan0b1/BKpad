@@ -110,7 +110,7 @@ char* replace_char(char* str, char* find, char* replace){
     }
     return str;
 }
-char* azerty_to_qwerty(char *str) {
+char* azerty_to_qwerty(char *str) { // made with AI, I was not able to do this by myself in c when starting the code :(
     char *azerty_keys = "azqwAZQWmM,?;.:/!-_1234567890";
     char *qwerty_keys = "qwazQWAZ;:mM,<.>/68!@#$%^&*()";
     
