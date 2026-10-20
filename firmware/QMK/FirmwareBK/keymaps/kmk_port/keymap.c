@@ -338,6 +338,7 @@ bool oled_task_user(void) { // this function includes a system of special images
     updates the oled display
     If actual_img is set to a new value, the display is set to the image associated.
     If a custom img is set, the custom img will be displayed untill the actual_img var is changed
+    If a custom img is not set, custom_img == '\0'
     */
     oled_set_cursor(0, 0);
     if (old_img != actual_img) {
