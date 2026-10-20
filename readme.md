@@ -4,14 +4,14 @@
 ### **The BKpad is my first project based on the model of the boykisser!**
 
 This *pad / micro keyboard* makes your communications easier!<br>
-You can express yourself with your emojis, there is 4 different buttons: firstly UwU, OwO, <br>
+You can express yourself with your emojis, there is 4 different buttons: firstly UwU, OwO <br>
 Then you can express you reflexions by petting his ears! Say hmm or ohh. The longer you keep pressing, the longer the hmmmmmmmmm there will have! <br>
-And because everything is not restricted in messages, can change your volume and the pad brightness (by turning the 2 potentiometers :3)<br>
-The whole keyboard runs on the open source QMK software
+And because everything is not restricted in messages, can change your computer's volume and the pad brightness (by turning the 2 potentiometers *:3*)<br>
+The whole keyboard runs on the open source *QMK* software
 <br><br>
 **Visuals indicators:** <br>
-An oled screen displays his mouth, and it moves when you press keys :p
-Twelve leds light up the BKpad, they have a smooth animation and his cheeks light up when interacting :o
+An oled screen displays his mouth, and it moves when you press keys :p <br>
+Twelve leds light up the BKpad. They have a smooth animation and his cheeks light up when you type on it :o <br><br>
 
 ### **Case images!** <br>
 | Bottom from top          | bottom from bottom       |
@@ -42,25 +42,27 @@ If you want to do this project yourself, all you need is there (+ money).<br>
 |EC11 Rotary encoders| 2x         |
 | 0.91 inch OLED | 1x             |
 |SK6812 MINI-E LEDs| 12x          |
-| special: | pcb maker/3d printer | 
+| special: | pcb maker ¦ 3d printer ¦ Soldering kit | 
 
 You will need to print the 2 .step parts with your 3d printer.
 Then, with the case and components, you will have to assemble and solder everything but the 2 switches. Clip the 2 switches onto the top plate, then assemble the pcb and top plate and solder the 2 switches. Finally flash the *.uf2* in your controller by clicking 2 times on the reset button.
 
-## Utilisation:
+## **Utilisation**:
 | Click          | Action         |
 | -------------- | -------------- |
 | left eye       | UwU            |
 | right eye      | OwO            |
 | left ear       | Hm (then mmm if you keep pressing) |
-| right ear      | Oh (then hhh if you keep pressing) |
+| right ear      | Oh (then hhh if you keep pressing) | 
 
 | Turn          | Action         |
+| -------------- | -------------- |
 | left ear       | adjusts the computer volume |
 | right ear       | adjusts the pad's brighness |
 
 
 | Combo          | Action         |
+| -------------- | -------------- |
 | left and right eyes      | enter Game Mode and opens BKball |
 | left and right ears      | Toggle the pad layout between QWERTY and AZERTY |
 | left and right eyes + right ear | enter Bootloader mode to flash a new firmware |
@@ -70,14 +72,15 @@ Then, with the case and components, you will have to assemble and solder everyth
 
 ## This project was made in steps: 
 
-1st: design the idea (easy) <br>
-2nd: use the tutorial to learn KiCad and fusion 360 <br>
-3rd: do the actual project (less easy):<br>
+**1st**: design the idea (easy) <br><br>
+**2nd**: use the tutorial to learn KiCad and fusion 360 <br><br>
+**3rd**: do the actual project (less easy):<br>
 - wiring everything logically with KiCad
 - defining the locations of the various elements on the board while designing the case in fusion360
 - adding beauty!
-<br>
-4th: making the code for the micro controller (this is difficult) and the website!<br>
+<br><br>
+**4th**: making the code for the micro controller (this is difficult) and the website!
+
  - The Website is actually made with ODOO, a no code option. I tried that to see where the no code puts us and it confirms: this is not good. BUT it was done and pretty in less than 2 hours easily and this is for everyone to see, not just people that want to see that I have a html degree.
  - https://bkpad.odoo.com/ <- it's like the discord but without code and complicated things
  - The firmware is made in c with QMK (I learned c while doing the project)
