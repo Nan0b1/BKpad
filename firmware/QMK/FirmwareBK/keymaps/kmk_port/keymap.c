@@ -2,7 +2,7 @@
 #include "print.h"
 #include "math.h"
 #include "mouth_bitmap.h"
-
+OwOOwOUwUUwUUwUUwUOwOOwOOwOUwUOwOUwUOwOOwOUwUOwOOwOOwOUwUOwOOwOOwO
 
 // EEPROM vars, for persistent modifications
 // sourced from qmk doc
@@ -335,6 +335,7 @@ void keyboard_post_init_user(void) {
 
     user_config.raw = eeconfig_read_user();
     if (!user_config.ee_initialized) {
+        user_config.ee_initialized = true
         user_config.ee_led_brightness = 64;
         eeconfig_update_user(user_config.raw);
     }
