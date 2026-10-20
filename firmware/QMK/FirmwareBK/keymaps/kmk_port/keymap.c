@@ -2,7 +2,7 @@
 #include "print.h"
 #include "math.h"
 #include "mouth_bitmap.h"
-OwOOwOUwUUwUUwUUwUOwOOwOOwOUwUOwOUwUOwOOwOUwUOwOOwOOwOUwUOwOOwOOwO
+
 
 // EEPROM vars, for persistent modifications
 // sourced from qmk doc
@@ -102,14 +102,6 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     ),
 };
 
-char* replace_char(char* str, char* find, char* replace){
-    char *current_pos = strchr(str,find[0]);
-    while (current_pos) {
-        *current_pos = replace[0];
-        current_pos = strchr(current_pos,find[0]);
-    }
-    return str;
-}
 char* azerty_to_qwerty(char *str) { // made with AI, I was not able to do this by myself in c when starting the code :(
     char *azerty_keys = "azqwAZQWmM,?;.:/!-_1234567890";
     char *qwerty_keys = "qwazQWAZ;:mM,<.>/68!@#$%^&*()";
@@ -124,6 +116,11 @@ char* azerty_to_qwerty(char *str) { // made with AI, I was not able to do this b
     return str;
 }
 
+/**
+ * send_string() function but translated to azerty if user_config.ee_azerty is true
+ * 
+ * @param chars The string you want to send to the computer
+ */
 void send_chars(char* chars) {
     if (user_config.ee_azerty) {
         char stringBuffer[64];
@@ -135,6 +132,10 @@ void send_chars(char* chars) {
         send_string(chars);
     }
 }
+
+/**
+ * Function automatically called when a button is pressed
+ */
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     if (red_cheek < 82){
         red_cheek += 48;
@@ -205,6 +206,9 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     return true;
 }
 
+/**
+ * Function automatically called when buttons are pressed
+ */
 void process_combo_event(uint16_t combo_index, bool pressed) {
     if (combo_index == MYKEY_COMBO && pressed) {
         
@@ -236,6 +240,9 @@ void process_combo_event(uint16_t combo_index, bool pressed) {
     }
 }
 
+/**
+ * Automatically called - Detects if a long press is done on the potentiometers
+ */
 void matrix_scan_user(void) {
     if (repeat_h_active &&
         timer_elapsed32(repeat_h_started) >= HOLD_REPEAT_DELAY &&
@@ -252,10 +259,20 @@ void matrix_scan_user(void) {
     }
 }
 
+/**
+ * Set a led color whith the actual brightness
+ */
 void set_led_color(uint8_t led, uint8_t red, uint8_t green, uint8_t blue) {
-    rgb_matrix_set_color(led, red*(user_config.ee_led_brightness*user_config.ee_led_brightness)/LED_BRIGHTNESS_MAX / LED_BRIGHTNESS_MAX, green*(user_config.ee_led_brightness*user_config.ee_led_brightness)/LED_BRIGHTNESS_MAX / LED_BRIGHTNESS_MAX, blue*(user_config.ee_led_brightness*user_config.ee_led_brightness)/LED_BRIGHTNESS_MAX / LED_BRIGHTNESS_MAX);
+    rgb_matrix_set_color(led, 
+        frame(0,red*(user_config.ee_led_brightness*user_config.ee_led_brightness)/LED_BRIGHTNESS_MAX / LED_BRIGHTNESS_MAX + red_cheek*(led==3 || led==5)/user_config.ee_led_brightness/LED_BRIGHTNESS_MAX*3,255), 
+        green*(user_config.ee_led_brightness*user_config.ee_led_brightness)/LED_BRIGHTNESS_MAX / LED_BRIGHTNESS_MAX,
+        blue*(user_config.ee_led_brightness*user_config.ee_led_brightness)/LED_BRIGHTNESS_MAX / LED_BRIGHTNESS_MAX
+    );
 }
 
+/**
+ * Updates all leds status
+ */
 bool rgb_matrix_indicators_user(void) {
     for (uint8_t led = 0; led < RGB_MATRIX_LED_COUNT; led++) {
         const uint8_t red = led_colors_variable[led][0];
@@ -266,6 +283,9 @@ bool rgb_matrix_indicators_user(void) {
     return true;
 }
 
+/**
+ * Detects rotary encoders actions
+ */
 bool encoder_update_user(uint8_t index, bool clockwise) {
     if (red_cheek < 106){
         red_cheek += 24;
@@ -310,15 +330,24 @@ bool encoder_update_user(uint8_t index, bool clockwise) {
     return false;
 }
 
+/**
+ * Function to have the screen in the right orientation
+ */
 oled_rotation_t oled_init_user(oled_rotation_t rotation) {
     return OLED_ROTATION_0;
 }
 
+/**
+ * Looped function every 80ms
+ */
 uint32_t my_callback(uint32_t trigger_time, void *cb_arg) {
     looped_user();
     return 80; // clock
 }
 
+/**
+ * Init function when the keyboard starts up
+ */
 void keyboard_post_init_user(void) {
     rgb_matrix_enable_noeeprom();
     rgb_matrix_mode_noeeprom(RGB_MATRIX_SOLID_COLOR);
@@ -335,7 +364,7 @@ void keyboard_post_init_user(void) {
 
     user_config.raw = eeconfig_read_user();
     if (!user_config.ee_initialized) {
-        user_config.ee_initialized = true
+        user_config.ee_initialized = true;
         user_config.ee_led_brightness = 64;
         eeconfig_update_user(user_config.raw);
     }
@@ -343,13 +372,13 @@ void keyboard_post_init_user(void) {
     defer_exec(100, my_callback, NULL);
 }
 
+/*
+updates the oled display
+If actual_img is set to a new value, the display is set to the image associated.
+If a custom img is set, the custom img will be displayed untill the actual_img var is changed
+If a custom img is not set, custom_img == '\0'
+*/
 bool oled_task_user(void) {
-    /*
-    updates the oled display
-    If actual_img is set to a new value, the display is set to the image associated.
-    If a custom img is set, the custom img will be displayed untill the actual_img var is changed
-    If a custom img is not set, custom_img == '\0'
-    */
     oled_set_cursor(0, 0);
     if (old_img != actual_img) {
         custom_img = '\0';
@@ -371,6 +400,9 @@ static float seed = 0;
 static uint8_t strenght = 6;
 static uint16_t speed = 100;
 
+/**
+ * Modify each led's rgb values with a non periodical function
+ */
 void modify_modifier(void){
     seed += 1;
     r_modifier = (int)((sinf(2 * seed/speed) + sinf(M_PI * seed/speed))*strenght*6);
@@ -383,6 +415,9 @@ void modify_modifier(void){
 
 static bool smol_animations = true;
 
+/**
+ * RGB animation
+ */
 void looped_user(void){
     modify_modifier();
     for (uint8_t led = 0; led < RGB_MATRIX_LED_COUNT; led++) {

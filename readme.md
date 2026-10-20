@@ -78,6 +78,7 @@ Then, with the case and components, you will have to assemble and solder everyth
 - wiring everything logically with KiCad
 - defining the locations of the various elements on the board while designing the case in fusion360
 - adding beauty!
+
 <br><br>
 **4th**: making the code for the micro controller (this is difficult) and the website!
 
