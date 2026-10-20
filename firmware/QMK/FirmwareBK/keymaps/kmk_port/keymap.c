@@ -4,6 +4,18 @@
 #include "mouth_bitmap.h"
 
 
+// EEPROM vars, for persistent modifications
+// sourced from qmk doc
+typedef union { 
+  uint32_t raw;
+  struct { //it's the number of bits not the default value :3
+    bool     ee_azerty :1; // stored keyboard layout value
+    uint8_t  ee_led_brightness:8;
+  };
+} user_config_t; 
+
+user_config_t user_config;
+
 int frame(int min, int value, int max){
     if (value < min) {
         return min;
@@ -32,7 +44,7 @@ enum combo_ids {
 
 static uint8_t actual_img = 4;
 static uint8_t old_img = 4;
-static uint8_t custom_img = '\0';
+static uint8_t custom_img = 4; // '\0' is null but if you do that the program will start showing nothing onto the oled :(
 
 const uint16_t PROGMEM GameMode_combo[] = {UWU_TEXT, OWO_TEXT, COMBO_END};
 const uint16_t PROGMEM bootloader_combo[] = {OH_REPEAT, HM_REPEAT, COMBO_END};
@@ -46,10 +58,7 @@ static uint16_t red_cheek = 0;
 #define LED_BRIGHTNESS_STEP 8
 
 
-// to change when you change the var 
-// - send_chars(clockwise == false ? "a" : "z"); 
-// - send_chars("w"); to z and other
-static bool azerty = true;
+
 static bool game_mode = false;
 
 static bool repeat_h_active;
@@ -74,6 +83,7 @@ const static uint32_t led_colors[2][RGB_MATRIX_LED_COUNT] = {
         0x5f3100, 0x5f3100, 0x5f3100,
     }
 };
+
 
 static uint8_t color_scene = 0;
 
@@ -115,7 +125,7 @@ char* azerty_to_qwerty(char *str) {
 }
 
 void send_chars(char* chars) {
-    if (azerty) {
+    if (user_config.ee_azerty) {
         char stringBuffer[64]; // Création d'un espace de 20 cases en RAM
         memset(stringBuffer, 0, sizeof(stringBuffer));
         snprintf(stringBuffer, sizeof(stringBuffer), "%s", chars); // On copie le texte dans la RAM
@@ -151,7 +161,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
                 }
             } else {
                 if (record->event.pressed) {
-                    send_chars(azerty ? "w" : "z");
+                    send_chars(user_config.ee_azerty ? "w" : "z");
                 }
             }
             return false;
@@ -223,9 +233,11 @@ void process_combo_event(uint16_t combo_index, bool pressed) {
         oled_task_user();
     }
     if (combo_index == BOOTLOADER_COMBO && pressed) {
-        custom_img = 6+azerty;
+        custom_img = 6+user_config.ee_azerty;
         oled_task_user();
-        azerty = !azerty;
+       user_config.ee_azerty = !user_config.ee_azerty;
+        user_config.ee_azerty =user_config.ee_azerty;
+        eeconfig_update_user(user_config.raw);
     }
     if (combo_index == HIDDEN_COMBO && pressed) {
         bootloader_jump();
@@ -276,17 +288,25 @@ bool encoder_update_user(uint8_t index, bool clockwise) {
             if (clockwise == false) {
                 
                 if (is_oled_on()) {
-                    oled_on();
+                    oled_on(); // TODO: ahh
                 }
                 if (led_brightness <= LED_BRIGHTNESS_MAX - LED_BRIGHTNESS_STEP) {
                     led_brightness += LED_BRIGHTNESS_STEP;
+                    user_config.ee_led_brightness = led_brightness;
+                    eeconfig_update_user(user_config.raw);
                 } else {
                     led_brightness = LED_BRIGHTNESS_MAX;
+                    user_config.ee_led_brightness = led_brightness;
+                    eeconfig_update_user(user_config.raw);
                 }
             } else if (led_brightness >= LED_BRIGHTNESS_STEP) {
                 led_brightness -= LED_BRIGHTNESS_STEP;
+                user_config.ee_led_brightness = led_brightness;
+                eeconfig_update_user(user_config.raw);
             } else {
                 led_brightness = 0;
+                user_config.ee_led_brightness = led_brightness;
+                eeconfig_update_user(user_config.raw);
             }
             oled_set_brightness((led_brightness*led_brightness)/129*2);
             break;
@@ -296,10 +316,10 @@ bool encoder_update_user(uint8_t index, bool clockwise) {
     } else {
         switch (index) {
         case 0:
-            send_chars(azerty ? (clockwise == false ? "a" : "z") : (clockwise == false ? "q" : "w"));
+            send_chars(user_config.ee_azerty ? (clockwise == false ? "a" : "z") : (clockwise == false ? "q" : "w"));
             break;
         case 1:
-            send_chars(azerty ? (clockwise == false ? "o" : "p") : (clockwise == false ? "o" : "p"));
+            send_chars(user_config.ee_azerty ? (clockwise == false ? "o" : "p") : (clockwise == false ? "o" : "p"));
             break;
         }
     }
@@ -329,6 +349,12 @@ void keyboard_post_init_user(void) {
         led_colors_variable[i][1] = green;
         led_colors_variable[i][2] = blue;
     }
+
+    user_config.raw = eeconfig_read_user();
+
+    // Set default layer, if enabled
+   user_config.ee_azerty = user_config.ee_azerty;
+    led_brightness = user_config.ee_led_brightness;
 
     defer_exec(100, my_callback, NULL);
 }
