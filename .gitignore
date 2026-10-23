@@ -10,7 +10,6 @@
 # Built Visual Studio Code Extensions
 *.vsix
 
-#me
+# me
 pcb1/*
-.gitignore
-.gitignore
+firmware\QMK\images\lcd_assistant_output.txt
