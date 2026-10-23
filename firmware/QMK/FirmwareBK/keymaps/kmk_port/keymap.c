@@ -183,10 +183,14 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
                 repeat_h_active = true;
                 repeat_h_started = timer_read32();
                 repeat_h_last = repeat_h_started;
-                oled_invert(true);
+                // oled_invert(true);
+                actual_img += 1;
+                oled_task_user();
             } else {
                 repeat_h_active = false;
-                oled_invert(false);
+                // oled_invert(false);
+                actual_img -= 1;
+                oled_task_user();
             }
             return false;
 
@@ -196,10 +200,12 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
                 repeat_m_active = true;
                 repeat_m_started = timer_read32();
                 repeat_m_last = repeat_m_started;
-                oled_invert(true);
+                actual_img += 1;
+                oled_task_user();
             } else {
                 repeat_m_active = false;
-                oled_invert(false);
+                actual_img -= 1;
+                oled_task_user();
             }
             return false;            
     }
@@ -229,7 +235,7 @@ void process_combo_event(uint16_t combo_index, bool pressed) {
         oled_task_user();
     }
     if (combo_index == BOOTLOADER_COMBO && pressed) {
-        custom_img = 6+user_config.ee_azerty;
+        custom_img = 7+user_config.ee_azerty;
         oled_task_user();
        user_config.ee_azerty = !user_config.ee_azerty;
         user_config.ee_azerty =user_config.ee_azerty;
@@ -429,9 +435,9 @@ void looped_user(void){
         if (led == 3 || led == 5){
             red_supp += red_cheek;
         }
-
         led_colors_variable[led][0] = frame(0, red + (r_modifier + red_supp)*red/256*smol_animations - strenght*4,255);
         led_colors_variable[led][1] = frame(0, green + g_modifier*green/256*smol_animations - strenght*4,255);
         led_colors_variable[led][2] = frame(0, blue + b_modifier*blue/256*smol_animations - strenght*4 ,255);
     }
 }
+
