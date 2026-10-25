@@ -1,4 +1,5 @@
 <img width="315" height="252" alt="BKpad Plastic" src="https://github.com/user-attachments/assets/7dec13c5-4c1a-4705-84c5-03c972b31e43" />
+<img width="252" height="252" alt="1792938948985" src="https://github.com/user-attachments/assets/1791b271-f646-473b-a039-5590bfecbe5f"/>
 
 # Presentation
 ### **The BKpad is my first project based on the model of the boykisser!**
@@ -14,13 +15,15 @@ An oled screen displays his mouth, and it moves when you press keys :p <br>
 Twelve leds light up the BKpad. They have a smooth animation and his cheeks light up when you type on it :o <br><br>
 
 ### **Case images!** <br>
-| Bottom from top          | bottom from bottom       |
-| -------------- | -------------- |
-| <img width="415" height="415" alt="BKpad_bottom" src="https://github.com/user-attachments/assets/09728038-5f8c-4b89-8035-226014684b55" /> | <img width="960" height="415" alt="BKpad_bottom_bottom-side" src="https://github.com/user-attachments/assets/a8534e42-a299-4d55-83c9-08172310a6d3" /> |
+| Bottom from top          | bottom from bottom       | Photo |
+| -------------- | -------------- | -------------- |
+| <img width="415" height="415" alt="BKpad_bottom" src="https://github.com/user-attachments/assets/09728038-5f8c-4b89-8035-226014684b55" /> | <img width="960" height="415" alt="BKpad_bottom_bottom-side" src="https://github.com/user-attachments/assets/a8534e42-a299-4d55-83c9-08172310a6d3" /> | <img width="615" height="450" alt="1792939285784" src="https://github.com/user-attachments/assets/8f3c2011-247a-4b97-acdb-5308777e44b7" /> |
+
 
 | Top from top          | top from bottom       |
 | -------------- | -------------- |
-| <img width="415" height="415" alt="BKpad-top_top-side" src="https://github.com/user-attachments/assets/5027afd2-966b-4f7e-aac7-3a855e985d1f" /> | <img width="960" height="415" alt="BKpad_Top_bottom-side" src="https://github.com/user-attachments/assets/5ae2b4ca-d643-479e-9673-b0dcc990aae2" /> |
+| <img width="415" height="415" alt="BKpad-top_top-side" src="https://github.com/user-attachments/assets/5027afd2-966b-4f7e-aac7-3a855e985d1f" /> | <img width="960" height="415" alt="BKpad_Top_bottom-side" src="https://github.com/user-attachments/assets/5ae2b4ca-d643-479e-9673-b0dcc990aae2" /> | <img width="4096" height="3072" alt="1792939285837" src="https://github.com/user-attachments/assets/40621584-860c-40d0-ad83-03ea087dcaec" /> |
+
 
 ### **PCB**
 
@@ -99,5 +102,5 @@ This project is likely the best keyboard that ever exister while being french. I
 
 
 Languages:<br>
-For everything: C
+For everything: C <br>
 For automation, a little of bash and cmd
