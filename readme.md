@@ -1,6 +1,10 @@
 <img width="315" height="252" alt="BKpad Plastic" src="https://github.com/user-attachments/assets/7dec13c5-4c1a-4705-84c5-03c972b31e43" />
 <img width="252" height="252" alt="1792938948985" src="https://github.com/user-attachments/assets/1791b271-f646-473b-a039-5590bfecbe5f"/>
 
+
+https://github.com/user-attachments/assets/3dae5c2b-237c-4f13-b20f-e51cc941dcec
+
+
 # Presentation
 ### **The BKpad is my first project based on the model of the boykisser!**
 
@@ -51,6 +55,11 @@ You will need to print the 2 .step parts with your 3d printer.
 Then, with the case and components, you will have to assemble and solder everything but the 2 switches. Clip the 2 switches onto the top plate, then assemble the pcb and top plate and solder the 2 switches. Finally flash the *.uf2* in your controller by clicking 2 times on the reset button.
 
 ## **Utilisation**:
+
+
+https://github.com/user-attachments/assets/a3f0b3ec-306b-41b1-a6ff-80429cbb8b30
+
+
 | Click          | Action         |
 | -------------- | -------------- |
 | left eye       | UwU            |
