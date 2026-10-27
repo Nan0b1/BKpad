@@ -5,14 +5,6 @@
 https://github.com/user-attachments/assets/9b7701e7-a3e1-4e45-840c-c2ae05b1d0f2
 
 
-
-https://github.com/user-attachments/assets/b5f07360-951d-4bd3-acaf-5b9fc91e4396
-
-
-
-
-
-
 # Presentation
 ### **The BKpad is my first project based on the model of the boykisser!**
 
@@ -89,6 +81,7 @@ https://github.com/user-attachments/assets/a3f0b3ec-306b-41b1-a6ff-80429cbb8b30
 
 *The Keyboard's layout and brigness are saved between utilisations*
 
+https://github.com/user-attachments/assets/b5f07360-951d-4bd3-acaf-5b9fc91e4396
 
 ## This project was made in steps: 
 
